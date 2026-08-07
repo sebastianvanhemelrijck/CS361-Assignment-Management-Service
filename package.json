@@ -8,6 +8,7 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "node --test --test-concurrency=1",
+    "demo-service": "node demo-service.js",
     "demo-test": "node test_program.js"
   },
   "dependencies": {
