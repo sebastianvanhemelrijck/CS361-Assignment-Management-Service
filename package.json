@@ -1,0 +1,24 @@
+{
+  "name": "cs361-assignment-management-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MS6 assignment management microservice",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test --test-concurrency=1",
+    "demo-service": "node demo-service.js",
+    "demo-test": "node test_program.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.1"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.2.0",
+    "supertest": "^7.2.2"
+  }
+}
