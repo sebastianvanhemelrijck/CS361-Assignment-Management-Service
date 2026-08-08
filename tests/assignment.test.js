@@ -6,7 +6,7 @@ import request from "supertest"
 
 import { createApp } from "../src/app.js"
 import { connectDatabase, disconnectDatabase } from "../src/db.js"
-import Assignment from "../models/Assignment.js"
+import Assignment from "../models/assignment.js"
 
 let database
 let app

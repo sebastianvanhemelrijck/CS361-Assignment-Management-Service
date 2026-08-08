@@ -1,6 +1,6 @@
 import express from "express"
 
-import Assignment from "../models/Assignment.js"
+import Assignment from "../models/assignment.js"
 
 const router = express.Router()
 
