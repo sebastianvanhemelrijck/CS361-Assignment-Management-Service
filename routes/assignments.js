@@ -4,7 +4,7 @@ import Assignment from "../models/assignment.js"
 
 const router = express.Router()
 
-// Create assignment
+// create an assignment for the caller
 router.post("/", async (request, response) => {
   try {
     const assignment = await Assignment.create(request.body)
@@ -18,7 +18,7 @@ router.post("/", async (request, response) => {
 })
 
 
-// Get assignments for a user
+// get only the assignments for this caller
 router.get("/user/:userId", async (request, response) => {
   try {
     const assignments = await Assignment.find({
@@ -34,7 +34,7 @@ router.get("/user/:userId", async (request, response) => {
 })
 
 
-// Update assignment
+// update the matching assignment if it exists
 router.put("/:id", async (request, response) => {
   try {
     const assignment = await Assignment.findByIdAndUpdate(
@@ -58,7 +58,7 @@ router.put("/:id", async (request, response) => {
 })
 
 
-// Delete assignment
+// delete the matching assignment if it exists
 router.delete("/:id", async (request, response) => {
   try {
     const assignment = await Assignment.findByIdAndDelete(
