@@ -17,8 +17,10 @@ The service uses a REST API with JSON at `http://127.0.0.1:5003` by default.
 | `DELETE /assignments/{id}` | Remove an assignment |
 
 Create requests require `userId`, `title`, and `dueDate`. Optional fields are
-`description` and `completed`. PrepTrack identifies itself with the `userId`
-value `PrepTrack` and maps `completed` to its open or complete display state.
+`description` and `completed`. Each Main Program chooses a stable `userId` for
+its own assignments. For example, PrepTrack uses `PrepTrack`, while a Study
+Planner or Habit Tracker can use its own program or user identifier without
+changing the service.
 
 ## Sprint 3 stories
 
