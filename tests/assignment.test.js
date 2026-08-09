@@ -9,12 +9,14 @@ import { connectDatabase, disconnectDatabase } from "../src/db.js"
 import Assignment from "../models/assignment.js"
 
 let database
+let databaseUri
 let app
 
 before(async () => {
     database = await MongoMemoryServer.create()
 
-    await connectDatabase(database.getUri("assignment_service_test"))
+    databaseUri = database.getUri("assignment_service_test")
+    await connectDatabase(databaseUri)
 
     app = createApp()
 })
@@ -84,6 +86,60 @@ test("updates an assignment", async () => {
 
     assert.equal(response.status, 200)
     assert.equal(response.body.title, "New title")
+})
+
+test("marks an assignment complete", async () => {
+    const created = await request(app)
+        .post("/assignments")
+        .send({
+            userId: "user123",
+            title: "Finish checklist",
+            dueDate: "2026-08-10"
+        })
+
+    const response = await request(app)
+        .put(`/assignments/${created.body._id}`)
+        .send({ completed: true })
+
+    assert.equal(response.status, 200)
+    assert.equal(response.body.completed, true)
+})
+
+test("rejects an invalid assignment update", async () => {
+    const created = await request(app)
+        .post("/assignments")
+        .send({
+            userId: "user123",
+            title: "Valid title",
+            dueDate: "2026-08-10"
+        })
+
+    const response = await request(app)
+        .put(`/assignments/${created.body._id}`)
+        .send({ title: "" })
+
+    assert.equal(response.status, 400)
+    assert.match(response.body.error, /title/i)
+})
+
+test("saved assignments remain after reconnecting", async () => {
+    await request(app)
+        .post("/assignments")
+        .send({
+            userId: "persistent-user",
+            title: "Keep this task",
+            dueDate: "2026-08-10"
+        })
+
+    await disconnectDatabase()
+    await connectDatabase(databaseUri)
+
+    const response = await request(app)
+        .get("/assignments/user/persistent-user")
+
+    assert.equal(response.status, 200)
+    assert.equal(response.body.length, 1)
+    assert.equal(response.body[0].title, "Keep this task")
 })
 
 test("deletes an assignment", async () => {

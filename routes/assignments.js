@@ -40,7 +40,7 @@ router.put("/:id", async (request, response) => {
     const assignment = await Assignment.findByIdAndUpdate(
       request.params.id,
       request.body,
-      { returnDocument: "after" }
+      { returnDocument: "after", runValidators: true }
     )
 
     if (!assignment) {
